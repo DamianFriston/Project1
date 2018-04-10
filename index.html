@@ -17,11 +17,13 @@
 
 <script>
 
-var timer = 0;
+var i=0 // counter timer incremented per milisecond. Rounded to one decimal place to eliminate computational delay which was found during testing phase
 
-var canvas = document.getElementById("gameCanvas");
-var ctx = canvas.getContext("2d");
-var ballRadius = 10;
+var irounded = Math.round( i * 10 ) / 10; 
+
+var canvas = document.getElementById("gameCanvas"); // Variable used to allow manipulation of canvas
+var ctx = canvas.getContext("2d"); // Standard method required for drawing to canvas.
+var ballRadius = 10; 
 var x = canvas.width/2;
 var y = canvas.height-30;
 var dx = 2;
@@ -44,10 +46,10 @@ var plSize = 25;
 var plx = canvas.width/1.5;
 var ply = (canvas.height/1.5) / 3;
 
-var plcx = plx + (plSize/2);
+var plcx = plx + (plSize/2); // THESE VALUES ARE USED TO ASCERTAIN THE CENTER OF THE PLAYER FOR COLLISION DETECTION.
 var plcy = ply + (plSize/2);
 
-var pSpeed = 2.5
+var pSpeed = 2.5 
 
 
 var rightPressed = false;
@@ -83,18 +85,11 @@ function drawPlayer() {
     ctx.fillStyle = "#ff478d";
     ctx.fill();
     ctx.closePath();
-
-    // ctx.beginPath();
-    // ctx.rect(plcx, plcy, 4, 4);
-    // ctx.fillStyle = "orange";
-    // ctx.fill();
-    // ctx.closePath();
-
     
 
     if(rightPressed && plx < canvas.width-(plSize*2)) {   // MOVEMENT SPEEDS  
     plx += pSpeed;
-    plcx += pSpeed;
+    plcx += pSpeed; 
 
     }
     
@@ -116,24 +111,26 @@ function drawPlayer() {
     
     ply -= pSpeed;
     plcy -= pSpeed;
+
     }
-
-
-
 }
 
+
 function checkCollision() {
-   // if center of player is within all following dimensions at same time, treat as collision
+   // if center of player is within all following dimensions at one time, treat as collision
 
     if (plcx > x - (ballRadius*1.75) && plcx < x + (ballRadius*1.75) && plcy > y - (ballRadius*1.75) && plcy < y + (ballRadius*1.75)) { 
+        alert("You lasted " + irounded + " seconds! Press 'OK' to play again") 
         location.reload();
     }
 
     else if (plcx > x2 - (ball2Radius) && plcx < x2 + (ball2Radius) && plcy > y2 - (ball2Radius) && plcy < y2 + (ball2Radius)) {
+        alert("You lasted " + irounded + " seconds! Press 'OK' to play again") 
         location.reload();
     }
 
     else if (plcx > x3 - (ball3Radius*1.2) && plcx < x3 + (ball3Radius*1.2) && plcy > y3 - (ball3Radius*1.2) && plcy < y3 + (ball3Radius*1.2)) {
+        alert("You lasted " + irounded + " seconds! Press 'OK' to play again") 
         location.reload();
     }
 
@@ -146,7 +143,7 @@ function draw() {
     drawBall();
     drawPlayer();
 
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) { // Ball's reactions to colliding with wall. Sets
         dx = -dx;
     }
     if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
@@ -167,7 +164,7 @@ function draw() {
         dy3 = -dy3;
     }
    
-    x += dx;
+    x += dx; // moves the ball on start on x and y axis 
     y += dy;
 
     x2 += dx2; 
@@ -178,7 +175,7 @@ function draw() {
 
 }
 
-// CONTROLS //
+// CONTROLS  up down left right //
 
 function keyDownHandler(e) {
     if(e.keyCode == 39) {
@@ -217,12 +214,24 @@ function keyUpHandler2(e) {
 }
 
 
-document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keydown", keyDownHandler, false); // Event listeners for Down, Up, Left and Right button events
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("keydown", keyDownHandler2, false);
 document.addEventListener("keyup", keyUpHandler2, false);
 
 setInterval(draw, 8); // SPEED OF EVERYTHING. The lower the number, the higher the call rate.
+
+
+setInterval(countUp, 100); // Counter
+
+function countUp() {
+
+    i += 0.1;
+    irounded = Math.round( i * 10 ) / 10;
+    
+}
+
+
 
 
 </script>
